@@ -13,12 +13,12 @@ module.exports.geocodeAddress = address => {
         json: true
       },
       (error, res, body) => {
-        //console.log(body.results[0].locations);
-
         if (error) {
-          //   console.log(error);
           const message = "Could not connect to the Geolocation API.";
           return reject(message);
+        }
+        if (body.results === undefined) {
+          return reject(body);
         }
         if (
           body.results[0].locations.length === 0 ||
