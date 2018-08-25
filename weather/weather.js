@@ -2,7 +2,7 @@ const request = require("request");
 
 module.exports.getWeather = (lat, lng) => {
   return new Promise((resolve, reject) => {
-    const url = `https://api.darksky.net/forecast/${
+    const url = `https://api.sdarksky.net/forecast/${
       process.env.WEATHER_KEY
     }/${lat},${lng}?units=si`;
 

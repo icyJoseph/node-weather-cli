@@ -23,25 +23,20 @@ geocode
   .geocodeAddress(address)
   .then(result => {
     const { street, postalCode, city, country, lat, lng } = result;
-
     console.log(`${street}, ${postalCode} ${city}, ${country} `);
-    return { lat, lng };
+
+    return weather.getWeather(lat, lng);
   })
-  .then(({ lat, lng }) =>
-    weather
-      .getWeather(lat, lng)
-      .then(weatherResult => {
-        const isClose = utils.closeTemp(weatherResult);
-        const { summary, temperature, apparentTemperature } = weatherResult;
+  .then(weatherResult => {
+    const isClose = utils.closeTemp(weatherResult);
+    const { summary, temperature, apparentTemperature } = weatherResult;
 
-        const firstSentence = `${summary} at ${temperature} \xB0C`;
+    const firstSentence = `${summary} at ${temperature} \xB0C`;
 
-        const secondSentence = !isClose
-          ? `,but it feels like ${apparentTemperature} \xB0C.`
-          : ".";
+    const secondSentence = !isClose
+      ? `,but it feels like ${apparentTemperature} \xB0C.`
+      : ".";
 
-        console.log(`${firstSentence}${secondSentence}`);
-      })
-      .catch(utils.errorLogger)
-  )
+    console.log(`${firstSentence}${secondSentence}`);
+  })
   .catch(utils.errorLogger);
