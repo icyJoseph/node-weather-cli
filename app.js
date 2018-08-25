@@ -12,6 +12,7 @@ const argv = yargs
     a: {
       demand: true,
       alias: "address",
+      default: "thorburnsgatan",
       describe: "Address to fetch weather for",
       string: true
     }
