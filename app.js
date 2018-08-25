@@ -19,18 +19,18 @@ const argv = yargs
 
 const { address } = argv;
 
-geocode.geocodeAddress(address, (errorMessage, result) => {
-  if (errorMessage) {
-    console.log(errorMessage);
-  } else {
+geocode
+  .geocodeAddress(address)
+  .then(result => {
     const { street, postalCode, city, country, lat, lng } = result;
 
     console.log(`${street}, ${postalCode} ${city}, ${country} `);
-
-    weather.getWeather(lat, lng, (errorMessage, weatherResult) => {
-      if (errorMessage) {
-        console.log(errorMessage);
-      } else {
+    return { lat, lng };
+  })
+  .then(({ lat, lng }) =>
+    weather
+      .getWeather(lat, lng)
+      .then(weatherResult => {
         const isClose = utils.closeTemp(weatherResult);
         const { summary, temperature, apparentTemperature } = weatherResult;
 
@@ -41,7 +41,7 @@ geocode.geocodeAddress(address, (errorMessage, result) => {
           : ".";
 
         console.log(`${firstSentence}${secondSentence}`);
-      }
-    });
-  }
-});
+      })
+      .catch(utils.errorLogger)
+  )
+  .catch(utils.errorLogger);
