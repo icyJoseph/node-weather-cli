@@ -1,5 +1,7 @@
 {
-  "name": "weatherapp",
+  "name": "weather",
+  "preferGlobal": true,
+  "bin": "./app.js",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
