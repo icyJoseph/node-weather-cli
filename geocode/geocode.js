@@ -2,7 +2,9 @@ const request = require("request");
 
 module.exports.geocodeAddress = (address, callback) => {
   const encodedAddress = encodeURIComponent(address);
-  const url = `http://www.mapquestapi.com/geocoding/v1/address?key=${key}&location=${encodedAddress}`;
+  const url = `http://www.mapquestapi.com/geocoding/v1/address?key=${
+    process.env.GEOLOCATION_KEY
+  }&location=${encodedAddress}`;
 
   request(
     {
