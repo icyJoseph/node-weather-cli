@@ -12,7 +12,7 @@ const argv = yargs
     a: {
       demand: true,
       alias: "address",
-      default: "thorburnsgatan",
+      default: "lindholmspiren",
       describe: "Address to fetch weather for",
       string: true
     }
@@ -30,16 +30,32 @@ geocode
     // if possible return a promise to avoid nesting `then` calls
     return weather.getWeather(lat, lng);
   })
-  .then(weatherResult => {
-    const isClose = utils.closeTemp(weatherResult);
-    const { summary, temperature, apparentTemperature } = weatherResult;
+  .then(({ currently, hourly, daily }) => {
+    const nextHour = hourly.data[1];
+    const tomorrow = daily.data[1];
 
-    const firstSentence = `${summary} at ${temperature} \xB0C`;
+    const {
+      summary,
+      apparentTemperatureHigh,
+      apparentTemperatureLow,
+      temperatureHigh,
+      temperatureLow
+    } = tomorrow;
 
-    const secondSentence = !isClose
-      ? `,but it feels like ${apparentTemperature} \xB0C.`
-      : ".";
+    const tomorrowTemp = (temperatureHigh + temperatureLow) / 2;
+    const tomorrowApparentTemp =
+      (apparentTemperatureHigh + apparentTemperatureLow) / 2;
 
-    console.log(`${firstSentence}${secondSentence}`);
+    weather.printWeather(currently, "Now");
+    weather.printWeather(nextHour, "Next Hour");
+    weather.printWeather(
+      {
+        ...tomorrow,
+        summary: summary.replace(".", ""),
+        temperature: tomorrowTemp,
+        apparentTemperature: tomorrowApparentTemp
+      },
+      "Tomorrow"
+    );
   })
   .catch(utils.errorLogger);

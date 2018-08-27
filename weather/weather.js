@@ -1,4 +1,5 @@
 const request = require("request");
+const utils = require("../utils");
 
 module.exports.getWeather = (lat, lng) => {
   return new Promise((resolve, reject) => {
@@ -22,8 +23,25 @@ module.exports.getWeather = (lat, lng) => {
         if (body.error) {
           return reject(body.error);
         }
-        return resolve(body.currently);
+        const { currently, hourly, daily } = body;
+        return resolve({ currently, hourly, daily });
       }
     );
   });
+};
+
+module.exports.printWeather = (
+  { summary, temperature, apparentTemperature },
+  time
+) => {
+  const { temp, appTemp, isClose } = utils.closeTemp(
+    temperature,
+    apparentTemperature
+  );
+
+  const firstSentence = `${summary} at ${temp} \xB0C`;
+
+  const secondSentence = !isClose ? `\nFeels like ${appTemp} \xB0C.` : "";
+
+  console.log(`\n${time}: \n${firstSentence}${secondSentence}`);
 };
