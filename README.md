@@ -53,7 +53,7 @@ Simple node weather-cli to fetch the weather forecast for a given location.
 
 ## Default Address
 
-You can also set a default address value by modifying the `yargs` config object.
+You can also set a default address value by modifying the `yargs` config object in `./app.js`.
 
 ```js
 const argv = yargs
