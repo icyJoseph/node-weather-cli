@@ -26,6 +26,7 @@ geocode
   .geocodeAddress(address)
   .then(result => {
     const { street, postalCode, city, country, lat, lng } = result;
+    console.log("\nThe weather at:");
     console.log(`${street}, ${postalCode} ${city}, ${country} `);
     // if possible return a promise to avoid nesting `then` calls
     return weather.getWeather(lat, lng);
