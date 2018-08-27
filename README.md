@@ -39,13 +39,13 @@ Simple node weather-cli to fetch the weather forecast for a given location.
    WEATHER_KEY=THE_OTHER_KEY
    ```
 
-   3. Install deps:
+3. Install deps:
 
    ```
    npm i
    ```
 
-   4. Run:
+4. Run:
 
    ```
    node app.js -a="your address"
