@@ -20,10 +20,7 @@ module.exports.geocodeAddress = address => {
         if (body.results === undefined) {
           return reject(body);
         }
-        if (
-          body.results[0].locations.length === 0 ||
-          !body.results[0].locations[0].street
-        ) {
+        if (body.results[0].locations.length === 0) {
           const invalid = "Invalid Address";
           return reject(invalid);
         }

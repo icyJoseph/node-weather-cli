@@ -12,7 +12,7 @@ const argv = yargs
     a: {
       demand: true,
       alias: "address",
-      default: "lindholmspiren",
+      default: "thorburnsgatan",
       describe: "Address to fetch weather for",
       string: true
     }
@@ -27,7 +27,11 @@ geocode
   .then(result => {
     const { street, postalCode, city, country, lat, lng } = result;
     console.log("\nThe weather in:");
-    console.log(`${street}, ${postalCode} ${city}, ${country} `);
+    console.log(
+      `${street ? `${street}, ` : ""}${
+        postalCode ? `${postalCode} ` : ""
+      }${city}, ${country} `
+    );
     // if possible return a promise to avoid nesting `then` calls
     return weather.getWeather(lat, lng);
   })
